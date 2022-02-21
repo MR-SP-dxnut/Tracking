@@ -1,0 +1,135 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model TrackingDEMO.Models.CreateTracking;
+@{
+    Layout = "_Layout_Adminn";
+
+    var i = 1;
+}
+<body class="body-white">
+    <div class="main">
+        <br/>
+        @{
+            var MyQRcodeAction = @ViewBag.MyQRcodeAction;
+            if (MyQRcodeAction.Equals("Success"))
+            {
+                 <br/>
+                 <div class="text-center">
+                    <h4>สร้างคิวอาร์โค๊ดสำเร็จ</h4>
+                </div>
+                <div class="container div div-sm">
+                            <div>
+                                <label> รหัสสินค้า </label>
+                                <text type="text" class="form-control boxbg">@Model.id_Product</text>
+                            </div>
+                            <br/>
+                            <div>
+                                <label> ชื่อสินค้า </label>
+                                <text type="text" class="form-control boxbg">@Model.name_Product</text>
+                            </div>
+                            <br/>
+                            <div>
+                                <label> ลิงก์สินค้า </label>
+                                <text type="text" class="form-control boxbg">@Model.url_Product</text>
+                            </div>
+                            <br/>
+                            <div>
+                                <label> Tracking number </label>
+                                <div class="input-group flex-nowrap"  >
+                                    <text type="text" class="form-control boxbg">@Model.id_Tracking</text>
+                                    <button onclick="copytext('@Model.id_Tracking')" class="input-group-text boxbg " id="@Model.id_Tracking"> คัดลอก </button>
+                                </div>
+                                
+                            </div>
+                            <br/>
+                            <div class="text-center">
+                                <label> คิวอาร์โค๊ด </label>
+                                <img src="@ViewBag.QrCodeUri" class="img-thumbnail" />
+                            </div>
+                </div>
+                <br/>
+            }
+            else if(MyQRcodeAction.Equals("Create"))
+            {
+                <br/>
+                <div class="text-center">
+                    <h4>สร้างคิวอาร์โค๊ด</h4>
+                </div>
+                <div class="container div div-sm">
+                    @using (@Html.BeginForm("MyQRcode","Admin",FormMethod.Post))
+                    {
+                        <form>
+                            <div>
+                                <label> รหัสสินค้า </label>
+                                <div class="input-group flex-nowrap" >
+                                    <span class="input-group-text boxbg "> P </span>
+                                    <input asp-for="id_Product" type="text" class="form-control boxbg"/>
+                                </div>
+                                <span class="text-danger" >@ViewBag.Erorr </span> 
+                            </div>
+                            <br/>
+                            <div>
+                                <label> ชื่อสินค้า </label>
+                                <input asp-for="name_Product" type="text" class="form-control boxbg"/>
+                            </div>
+                            <br/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-ct col-12 " ><strong>สร้างคิวอาร์โค๊ด</strong></button>
+                            </div>
+                        </form>
+                    }
+                </div>
+                <br/>
+            }
+            else
+            {
+              <div class="container">
+              <div class="text-end">
+                 @using(@Html.BeginForm("MyQRcode","Admin",FormMethod.Post))
+                 {
+                   <button type="submit"  class="btn btn-ct col-auto" >เพิ่ม QR code</button>
+                 }
+              </div>
+              <br/>
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th >ลำดับ</th>
+                            <th >ชื่อสินค้า</th>
+                            <th >ดูรายละเอียด</th>
+                            <th >Download QR Code</th>
+                            <th >Tracking number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in ViewBag.list_ShowTracking) 
+                    {
+                        <tr class="text-center">
+                            <td > @i </td>
+                            <td >@item.name_Product</td>
+                            <td >@using(@Html.BeginForm("DetailQRcode","Admin",FormMethod.Post)){
+                                    <button name="idQRcode" value="@item.id_Tracking" type="submit"  class="btn btn-ct col-auto" >ดูรายละเอียด</button>
+                                 }
+                            </td>
+                            <td ><a class="btn btn-ct col-auto" href="@item.QRCodes" download="@item.id_Tracking">download</a></td>
+                            <td >
+                                <button id="@item.id_Tracking" class="btn btn-ct col-auto" onclick="copytext('@item.id_Tracking')" >คัดลอก</button>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                    </tbody>
+                </table>
+              </div>
+                
+            }
+        }
+    </div>
+    <script>
+        function copytext(text){
+            navigator.clipboard.writeText(text);
+            document.getElementById(text).innerHTML = "คัดลอกเเล้ว"
+        }
+    </script>
+</body>

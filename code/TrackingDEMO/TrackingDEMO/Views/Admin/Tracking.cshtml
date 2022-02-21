@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model TrackingDEMO.Models.TrackingProduct;
+@{
+    Layout = "_Layout_Adminn";
+}
+<body class="body-white">
+    <div class="main">
+        <br/>
+        <br/>
+        <div class="text-center">
+            <h4>Tracking</h4>
+        </div>
+        @{
+            var TrackingAction = @ViewBag.TrackingAction;
+            if (TrackingAction.Equals("UpdateTracking"))
+            {
+                <div class="container div div-sm">
+                    @using (@Html.BeginForm("Tracking","Admin", FormMethod.Post))
+                    {
+                        <form>
+                            <div>
+                                <label> Tracking number </label>
+                                <text  class="form-control boxbg">@Model.id</text>
+                                <input asp-for="id" hidden/>
+                            </div>
+                            <br/>
+                            <div>
+                                <label> สินค้า </label>
+                                <text class="form-control boxbg">@Model.name_Product</text>
+                            </div>
+                            <br/>
+                            <div>
+                                <label> สถานที่ Track</label>
+                                <input asp-for="name_Location" type="text" class="form-control boxbg" required/>
+                            </div>
+                            <br/>
+                            <div>
+                                <label> สถานะ </label>
+                                <select asp-for="name_Status" class="form-select boxbg" size="0">
+                                    <option selected > เลือกสถานะ </option>
+                                    <option value="รับพัสดุเข้า">รับพัสดุเข้า</option>
+                                    <option value="ถึงศูนย์คัดเเยก">ถึงศูนย์คัดเเยก</option>
+                                    <option value="ถึงสาขาปลายทาง">ถึงสาขาปลายทาง</option>
+                                    <option value="กำลังนำส่งพัสดุ">กำลังนำส่งพัสดุ</option>
+                                    <option value="ส่งพัสดุเรียบร้อยเเล้ว">ส่งพัสดุเรียบร้อยเเล้ว</option>
+                                </select>
+                                <span class="text-danger" > @ViewBag.message </span>
+                            </div>
+                            <br/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-ct col-12 " ><strong>ยืนยัน</strong></button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            }else if(TrackingAction.Equals("Success")){
+                <meta http-equiv="refresh" content="3;URL='/Admin/Tracking'">
+                <div class="container alert alert-success div-sm ">
+                    <h2 class="text-center"> @ViewBag.message </h2>
+                </div>
+            }else{
+                <div class="container div div-sm">
+                    @using (@Html.BeginForm("Tracking","Admin", FormMethod.Post))
+                    {
+                        <form>
+                            <div>
+                                <label> Tracking number </label>
+                                <input asp-for="id" type="text" class="form-control boxbg" value="@ViewBag.TrackingID" required/>
+                                <span class="text-center text-danger"> @ViewBag.Erorr </span>
+                            </div>
+                            <br/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-ct col-12 " ><strong>ค้นหา</strong></button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            }
+        }
+        <br/>
+    </div>
+</body>

@@ -1,0 +1,57 @@
+﻿@model TrackingDEMO.Models.TrackingProduct;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout_Home";
+}
+<br />
+<br />
+<div class="text-center">
+    <h1>Tracking Demo</h1>
+</div>
+<br />
+<div class="text-center container div div-md rounded" >
+    @using(@Html.BeginForm("Index","Home", FormMethod.Post))
+    {
+        <form>
+            <div>
+                <input type="search" class="form-control boxbg" asp-for="id" placeholder="ติดตามสินค้า"/>
+                <span class="text-danger"> @ViewBag.message </span>
+            </div>
+            <br />
+            <div>
+                <button type="submit" class="btn btn-ct col-6 ">ติดตาม</button>
+            </div>
+        </form>
+        
+    }
+    @{
+        var TrackSuces = @ViewBag.TrackSuces;
+        if (TrackSuces.Equals("True"))
+        {
+            <div class="text-center container div div-md" >
+            <table class="table-cus">
+            @foreach (var item in @ViewBag.list_Tracking)
+            {
+                <tr class="text-center ">
+                    <td class="col-2"></td>
+                    <td>
+                    @item.date_time_Status
+                    </td>
+                    <td>
+                    TrackingDEMO @item.name_Status <br/>
+                    @item.name_Location
+                    </td>
+                    <td class="col-2"></td>
+                </tr>
+            }
+            </table>
+        
+            </div>
+
+        }else
+        {
+        
+        }
+    }
+</div>
+

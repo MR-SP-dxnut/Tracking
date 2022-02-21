@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model TrackingDEMO.Models.LoginUser;
+@{
+     ViewData["Title"] = "Login";
+
+    Layout = "_Layout_LR";
+}
+<br />
+<div class="text-center">
+    <h1> Tracking Demo </h1>
+</div>
+<br/>
+<div class="container div div-sm rounded"  >
+    @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+    {
+        <form id="formLogin" runat="server" action="Login()">
+            <div class="form-group">
+                <label>อีเมล</label>
+                <input type="email" class="form-control boxbg" asp-for="Email" required>
+            </div>
+            <br />
+            <div class="form-group">
+                <label>รหัสผ่าน</label>
+                <input type="password" class="form-control boxbg" asp-for="PassWord" required>
+            </div>
+            <br/>
+            @{
+                var LoginSucess = @ViewBag.LoginSucess;
+                if (LoginSucess.Equals("False"))
+                {
+                    <div class="text-danger text-center"> อีเมล หรือ รหัสผ่าน ไม่ถูกต้อง !!</div>
+                    <br/>
+
+                }
+            
+            }
+            <div class="text-center">
+                <button type="submit" class="btn btn-ct col-6 " ><strong>เข้าสู่ระบบ</strong></button>
+            </div>
+        </form>
+    }
+</div>
+<br />
+<div class="container div container-fluid  text-center div-sm rounded" >
+    <p>หากคุณยังไม่มีบัญชีผู้ใช้?
+        <a asp-controller="Register" asp-action="Index" > ลงทะเบียน </a>
+    </p>
+</div>

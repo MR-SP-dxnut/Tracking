@@ -1,0 +1,90 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model TrackingDEMO.Models.RegisterUser;
+@{
+    
+    ViewData["Title"] = "Register";
+    
+    Layout = "_Layout_LR";
+}
+
+<br />
+<div class="text-center">
+    <h1> Tracking Demo </h1>
+</div>
+@{
+    var RegisterSuccess = @ViewBag.RegisterSuccess;
+    var email = @ViewBag.Email;
+    if (RegisterSuccess.Equals("True")) {
+        <meta http-equiv="refresh" content="3;URL='/Login/Index'">
+        <div class="container alert alert-success rounded">
+            <h2> ลงทะเบียนสำเร็จ </h2>
+            <br/>
+            Email : @email
+        </div>
+    } else
+    {
+        <br/>
+        <div class="container div div-md rounded"  >
+        @using (Html.BeginForm("Index", "Register",FormMethod.Post))
+        {
+            <form>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>ชื่อ</label>
+                        <input type="text" class="form-control boxbg" asp-for="FirstName" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>นามสกุล</label>
+                        <input type="text" class="form-control boxbg" asp-for="LastName" required>
+                
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>อีเมล</label>
+                    <input type="email" class="form-control boxbg" asp-for="Email" placeholder="example@tracking.com" required>
+                    <span class="text-danger">@ViewBag.EmailErorr</span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>รหัสผ่าน</label>
+                    <input type="password" class="form-control boxbg" asp-for="PassWord" id="PassWord" required>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="ConfirmPassWord"  class="form-control boxbg" asp-for="ConfirmPassWord" onkeyup="check()" required>
+                    <span asp-validation-for="ConfirmPassWord" id="ErorrCFPW"  class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>เบอร์โทร</label>
+                    <input type="tel" class="form-control boxbg" asp-for="Phone" pattern="[0-9]{10}" required>
+                    <small class="text-danger"> * กรุณาใส่ตัวเลข 0 - 9 เท่านั้น </small>
+                </div>
+                <br />
+                <div class="text-center">
+                    <button type="submit" class="btn btn-ct col-6 " ><strong>ลงทะเบียน</strong></button>
+                </div>
+            </form>
+        }
+        </div>
+        <br />
+        <div class="container div container-fluid  text-center div-md rounded" >
+            <p>หากคุณมีบัญชีผู้ใช้เเล้ว?
+                <a asp-controller="Login" asp-action="Index" > เข้าสู่ระบบ </a>
+            </p>
+        </div>
+        <script>
+            function check(){
+                if(document.getElementById("PassWord").value != document.getElementById("ConfirmPassWord").value ){
+                    document.getElementById("ErorrCFPW").innerHTML = "รหัสผ่านไม่ตรงกัน";
+                }else{
+                    document.getElementById("ErorrCFPW").innerHTML = "";
+                }
+            }
+        </script>
+    }
+}

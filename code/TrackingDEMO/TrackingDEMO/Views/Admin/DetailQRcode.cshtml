@@ -1,0 +1,54 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model TrackingDEMO.Models.CreateTracking;
+@{
+    Layout = "_Layout_Adminn";
+}
+<body class="body-white">
+    <div class="main">
+    <br/>
+    <br/>
+    <div class="container div div-sm">
+    @foreach (var item in ViewBag.list_ShowTracking )
+   {
+
+        <div>
+            <label> รหัสสินค้า </label>
+            <text type="text" class="form-control boxbg">@item.id_Product</text>
+        </div>
+        <br/>
+        <div>
+            <label> ชื่อสินค้า </label>
+            <text type="text" class="form-control boxbg">@item.name_Product</text>
+        </div>
+        <br/>
+        <div>
+            <label> ลิงก์สินค้า </label>
+            <text type="text" class="form-control boxbg">@item.url_Product</text>
+        </div>
+        <br/>
+        <div>
+            <label> Tracking number </label>
+            <div class="input-group flex-nowrap"  >
+                <text type="text" class="form-control boxbg">@item.id_Tracking</text>
+                <button onclick="copytext('@item.id_Tracking')" class="input-group-text boxbg " id="@item.id_Tracking"> คัดลอก </button>
+            </div>
+        </div>
+        <br/>
+        <div class="text-center">
+            <label> คิวอาร์โค๊ด </label>
+            <img src="@ViewBag.QrCodeUri" class="img-thumbnail" />
+        </div>
+    }
+    </div>
+    </div>
+    <script>
+        function copytext(text){
+            navigator.clipboard.writeText(text);
+            document.getElementById(text).innerHTML = "คัดลอกเเล้ว"
+        }
+    </script>
+</body>
+    
+        
